@@ -1,101 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV Markdown Studio</title>
-    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        font-size: 12px; /* Regular view font size */
-        color: #333;
-        margin: 0;
-        padding: 20px;
-      }
-      textarea {
-        width: 48%;
-        height: 90vh;
-        padding: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        resize: vertical;
-      }
-      #htmlOutput {
-        width: 48%;
-        height: 90vh;
-        overflow-y: scroll;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 20px;
-        box-sizing: border-box;
-      }
-      #printButton {
-        display: block;
-        margin-top: 10px;
-      }
-      header,
-      section {
-        margin-bottom: 20px;
-      }
-      header h1 {
-        font-size: 24px;
-        color: #000;
-      }
-      .section-title {
-        font-size: 18px;
-        border-bottom: 2px solid #666;
-        margin-bottom: 10px;
-      }
-      @media print {
-        body {
-          font-size: 16px; /* Larger font size for printing */
-        }
-        textarea,
-        #printButton {
-          display: none; /* Hide textarea and the print button during print */
-        }
-        #htmlOutput {
-          width: 100%;
-          height: auto;
-          overflow: visible;
-          border: none;
-          background-color: white;
-          padding: 0;
-        }
-      }
 
-      .wrapper {
-        display: flex;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrapper">
-      <textarea
-        id="markdownInput"
-        placeholder="Enter Markdown here..."
-      ></textarea>
-      <div id="htmlOutput"></div>
-    </div>
-    <button id="printButton" onclick="window.print();">Print HTML</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Markdown to PDF Converter - Free Online Tool | ChatGPT to PDF | Resume to PDF</title>
+  <meta name="description"
+    content="Free online Markdown to PDF converter. Convert Markdown, ChatGPT outputs, resumes, and CVs to PDF instantly. Real-time preview, no registration required." />
+  <meta name="author" content="Markdown to PDF Converter" />
+  <meta name="robots" content="index, follow" />
 
-    <script>
-      const inputArea = document.getElementById("markdownInput");
-      const outputDiv = document.getElementById("htmlOutput");
-      const converter = new showdown.Converter({
-        tables: true,
-        simplifiedAutoLink: true,
-        strikethrough: true,
-        tasklists: true,
-      });
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://maksimkunaev.github.io/markdown_to_pdf/" />
 
-      inputArea.addEventListener("input", function () {
-        const markdownText = inputArea.value;
-        const htmlText = converter.makeHtml(markdownText);
-        outputDiv.innerHTML = htmlText;
-      });
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://maksimkunaev.github.io/markdown_to_pdf/" />
+  <meta property="og:title" content="Markdown to PDF Converter - Free Online Tool" />
+  <meta property="og:description"
+    content="Convert Markdown, ChatGPT outputs, resumes, and CVs to PDF instantly. Free online tool with real-time preview." />
+  <meta property="og:image" content="https://maksimkunaev.github.io/markdown_to_pdf/og-image.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Markdown to PDF Converter - Free Online Tool" />
+  <meta name="twitter:description"
+    content="Convert Markdown, ChatGPT outputs, resumes, and CVs to PDF instantly. Free online tool with real-time preview." />
+  <meta name="twitter:image" content="https://maksimkunaev.github.io/markdown_to_pdf/og-image.png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Markdown to PDF Converter",
+      "description": "Free online tool to convert Markdown documents, ChatGPT outputs, resumes, and CVs to PDF format with real-time preview.",
+      "url": "https://maksimkunaev.github.io/markdown_to_pdf/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Markdown to PDF conversion",
+        "ChatGPT to PDF conversion",
+        "Resume to PDF conversion",
+        "Real-time preview",
+        "No registration required"
+      ]
+    }
     </script>
-  </body>
+
+  <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 95%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .header-tagline {
+      font-size: 13px;
+      color: #718096;
+    }
+
+    .main-content {
+      background: white;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .editor-wrapper {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 600px;
+      height: calc(100vh - 200px);
+    }
+
+    .panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-label {
+      font-weight: 600;
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-label::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: #4a90e2;
+      border-radius: 2px;
+    }
+
+    .panel-description {
+      font-size: 12px;
+      color: #a0aec0;
+      margin-bottom: 12px;
+      margin-left: 12px;
+    }
+
+    textarea {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      resize: none;
+      transition: border-color 0.2s;
+      background: #f7fafc;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #4a90e2;
+      background: white;
+    }
+
+    #htmlOutput {
+      flex: 1;
+      overflow-y: auto;
+      background-color: #fff;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 100%;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 20px;
+      border-top: 1px solid #e2e8f0;
+      background: white;
+      position: sticky;
+      bottom: 0;
+      margin: 0 -20px -20px -20px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: white;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #4a5568;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .seo-footer {
+      margin-top: 30px;
+      padding: 16px 20px;
+      background: #f7fafc;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #718096;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .seo-footer p {
+      margin: 0;
+    }
+
+    .seo-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .seo-links span {
+      color: #a0aec0;
+      font-size: 12px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 0;
+      }
+
+      .header,
+      .panel-label,
+      .panel-description,
+      .actions,
+      .seo-footer,
+      textarea {
+        display: none;
+      }
+
+      .main-content {
+        box-shadow: none;
+        padding: 0;
+      }
+
+      .editor-wrapper {
+        flex-direction: column;
+      }
+
+      #htmlOutput {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        border: none;
+        background-color: white;
+        padding: 0;
+      }
+
+      .actions {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        max-width: 100%;
+        padding: 10px;
+      }
+
+      .header {
+        padding: 12px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .header h1 {
+        font-size: 18px;
+      }
+
+      .header-tagline {
+        font-size: 12px;
+      }
+
+      .main-content {
+        padding: 15px;
+      }
+
+      .seo-footer {
+        padding: 12px 15px;
+        font-size: 12px;
+      }
+
+      .seo-links {
+        gap: 12px;
+      }
+
+      .seo-links span {
+        font-size: 11px;
+      }
+
+      .editor-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        min-height: auto;
+        height: auto;
+      }
+
+      .panel {
+        min-height: 300px;
+      }
+
+      textarea {
+        min-height: 300px;
+        font-size: 13px;
+        padding: 12px;
+      }
+
+      #htmlOutput {
+        min-height: 300px;
+        padding: 15px;
+      }
+
+      .panel-label {
+        font-size: 13px;
+      }
+
+      .panel-description {
+        font-size: 11px;
+      }
+
+      .actions {
+        flex-wrap: wrap;
+        padding: 12px 15px;
+        margin: 0 -15px -15px -15px;
+      }
+
+      .btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
+      .btn-primary {
+        padding: 12px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 8px;
+      }
+
+      .header {
+        padding: 10px 12px;
+      }
+
+      .header h1 {
+        font-size: 16px;
+      }
+
+      .main-content {
+        padding: 12px;
+      }
+
+      .seo-footer {
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+
+      .editor-wrapper {
+        gap: 12px;
+      }
+
+      .panel {
+        min-height: 250px;
+      }
+
+      textarea {
+        min-height: 250px;
+        padding: 10px;
+      }
+
+      #htmlOutput {
+        min-height: 250px;
+        padding: 12px;
+      }
+
+      .actions {
+        padding: 10px 12px;
+        margin: 0 -12px -12px -12px;
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Markdown to PDF Converter</h1>
+      <span class="header-tagline">Free • No signup • Real-time preview</span>
+    </div>
+
+    <div class="main-content">
+      <div class="editor-wrapper">
+        <div class="panel">
+          <div class="panel-label">Markdown Editor</div>
+          <div class="panel-description">Paste your Markdown, ChatGPT output, or resume</div>
+          <textarea id="markdownInput"
+            placeholder="# Welcome to Markdown to PDF Converter&#10;&#10;Start typing your Markdown content here...&#10;&#10;## Features&#10;- Real-time preview&#10;- PDF export&#10;- Clean formatting"></textarea>
+        </div>
+
+        <div class="panel">
+          <div class="panel-label">Live Preview</div>
+          <div class="panel-description">Your formatted document</div>
+          <div id="htmlOutput"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="exportButton" onclick="window.print();">
+          ↓ Export as PDF
+        </button>
+        <button class="btn btn-secondary"
+          onclick="document.getElementById('markdownInput').value = ''; document.getElementById('htmlOutput').innerHTML = '';">
+          Clear
+        </button>
+      </div>
+
+      <footer class="seo-footer">
+        <p>Convert Markdown to PDF instantly. Works with ChatGPT outputs, resumes, CVs, and documentation.</p>
+        <div class="seo-links">
+          <span>Markdown to PDF</span>
+          <span>•</span>
+          <span>ChatGPT to PDF</span>
+          <span>•</span>
+          <span>Resume to PDF</span>
+          <span>•</span>
+          <span>CV to PDF</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const inputArea = document.getElementById("markdownInput");
+    const outputDiv = document.getElementById("htmlOutput");
+    const converter = new showdown.Converter({
+      tables: true,
+      simplifiedAutoLink: true,
+      strikethrough: true,
+      tasklists: true,
+    });
+
+    inputArea.addEventListener("input", function () {
+      const markdownText = inputArea.value;
+      const htmlText = converter.makeHtml(markdownText);
+      outputDiv.innerHTML = htmlText;
+    });
+  </script>
+</body>
+
 </html>
